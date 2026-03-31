@@ -101,3 +101,21 @@ print(df["PriceRatio"].describe())
 # Preview dataset
 print("\nFirst 5 rows with PriceRatio:")
 print(df.head())
+
+
+# -----------------------------
+# Step 4: Remove extreme outliers
+# -----------------------------
+
+# Compute percentiles
+lower_bound = df["PriceRatio"].quantile(0.01)
+upper_bound = df["PriceRatio"].quantile(0.99)
+
+# Filter dataset
+df = df[(df["PriceRatio"] >= lower_bound) & (df["PriceRatio"] <= upper_bound)]
+
+print("\nShape after removing outliers:", df.shape)
+
+print("\nUpdated PriceRatio summary:")
+print(df["PriceRatio"].describe())
+

@@ -68,3 +68,8 @@ The dataset now includes a meaningful target variable suitable for regression an
 Next step:
 Transform variables and prepare categorical features for modeling.
 
+
+## Step 5: Removed extreme outliers
+
+Extreme values in the PriceRatio variable were reduced using percentile-based filtering. The distribution is now more stable, with most observations concentrated between approximately 1.0 and 1.5, indicating that sale prices are generally close to appraised values.
+
