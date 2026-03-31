@@ -119,3 +119,14 @@ print("\nShape after removing outliers:", df.shape)
 print("\nUpdated PriceRatio summary:")
 print(df["PriceRatio"].describe())
 
+
+import matplotlib.pyplot as plt
+
+plt.hist(df["PriceRatio"], bins=50)
+plt.title("Distribution of PriceRatio")
+plt.xlabel("PriceRatio")
+plt.ylabel("Frequency")
+plt.show()
+
+
+
