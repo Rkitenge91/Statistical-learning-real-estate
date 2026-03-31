@@ -58,3 +58,23 @@ print("\nRemaining columns after dropping:")
 print(df.columns.tolist())
 
 print("\nNew shape:", df.shape)
+
+
+# -----------------------------
+# Step 2: Handle missing values
+# -----------------------------
+
+# 1. Drop column with too many missing values
+df = df.drop(columns=["LandSF"])
+
+# 2. Remove rows with missing critical variables
+df = df.dropna(subset=["SalePrice", "TotalAppraisedValue"])
+
+# 3. Remove rows with missing smaller variables
+df = df.dropna(subset=["TotalFinishedArea"])
+
+# Check remaining missing values
+print("\nMissing values after cleaning:")
+print(df.isna().sum())
+
+print("\nNew shape after removing missing values:", df.shape)

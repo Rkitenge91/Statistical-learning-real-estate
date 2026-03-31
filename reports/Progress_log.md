@@ -32,3 +32,20 @@ The dataset was reduced to a smaller set of relevant variables that are more sui
 
 Next step:
 Handle missing values and remove invalid observations.
+
+
+## Step 3: Handling missing values
+
+Summary:
+We addressed missing values by prioritizing variables essential for modeling. Observations with missing SalePrice were removed, as this variable is required to construct the target variable. The LandSF variable was dropped due to a high proportion of missing values. Remaining missing values in TotalFinishedArea were handled by removing incomplete observations.
+
+Key actions:
+- Removed rows with missing SalePrice and TotalAppraisedValue
+- Dropped LandSF due to excessive missing values
+- Removed rows with missing TotalFinishedArea
+
+Result:
+The dataset now contains complete observations for all variables required for modeling.
+
+Next step:
+Remove invalid observations and construct the target variable.
