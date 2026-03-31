@@ -49,3 +49,22 @@ The dataset now contains complete observations for all variables required for mo
 
 Next step:
 Remove invalid observations and construct the target variable.
+
+
+## Step 4: Removal of invalid observations and target construction
+
+Summary:
+We removed observations with non-positive values in SalePrice and TotalAppraisedValue to ensure valid computations. These values are not meaningful in a real estate context and would distort the analysis.
+
+We then constructed a new target variable, PriceRatio, defined as the ratio of SalePrice to TotalAppraisedValue. This variable captures the relative difference between market sale price and assessed value, allowing for a more interpretable analysis of pricing behavior. We further excluded unrealistically small sale prices, such as nominal values close to zero, because these transactions are unlikely to reflect meaningful market sales and would distort the target ratio.
+
+Key actions:
+- Removed observations with SalePrice ≤ 0 or TotalAppraisedValue ≤ 0
+- Created PriceRatio = SalePrice / TotalAppraisedValue
+
+Result:
+The dataset now includes a meaningful target variable suitable for regression and comparative analysis.
+
+Next step:
+Transform variables and prepare categorical features for modeling.
+

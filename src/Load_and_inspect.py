@@ -78,3 +78,26 @@ print("\nMissing values after cleaning:")
 print(df.isna().sum())
 
 print("\nNew shape after removing missing values:", df.shape)
+
+
+# --------------------------------------------------------------
+# Step 3: Remove invalid observations and create target variable
+# --------------------------------------------------------------
+
+# 1. Remove invalid values
+df = df[(df["SalePrice"] > 0) & (df["TotalAppraisedValue"] > 0)]
+df = df[df["SalePrice"] >= 1000]
+
+# Check new shape after removing invalid rows
+print("\nShape after removing invalid observations:", df.shape)
+
+# 2. Create target variable
+df["PriceRatio"] = df["SalePrice"] / df["TotalAppraisedValue"]
+
+# Check summary of new variable
+print("\nSummary of PriceRatio:")
+print(df["PriceRatio"].describe())
+
+# Preview dataset
+print("\nFirst 5 rows with PriceRatio:")
+print(df.head())
