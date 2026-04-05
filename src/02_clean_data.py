@@ -1,30 +1,10 @@
 import pandas as pd
+import matplotlib.pyplot as plt
 
-# -----------------------------
-# Step 0: Raw Dataset: Loading and Inspection
-# -----------------------------
-
-
-# Load dataset
+# ------------------------------
+# Load raw dataset
+# ------------------------------
 df = pd.read_csv("data_raw/Res.csv")
-
-# Basic inspection
-print("Shape:", df.shape)
-
-print("\nColumns:")
-print(df.columns.tolist())
-
-print("\nInfo:")
-df.info()
-
-print("\nMissing values:")
-print(df.isna().sum())
-
-print("\nDuplicates:", df.duplicated().sum())
-
-# Preview data
-print("\nFirst 5 rows:")
-print(df.head())
 
 # -----------------------------
 # Step 1: Drop irrelevant columns
@@ -127,7 +107,22 @@ plt.hist(df["PriceRatio"], bins=50)
 plt.title("Distribution of PriceRatio")
 plt.xlabel("PriceRatio")
 plt.ylabel("Frequency")
+
+# Save figure
+plt.savefig("figures/price_ratio_distribution.png")
+
+# Show histogram
 plt.show()
+
+
+# ------------------------------
+# Save cleaned dataset
+# ------------------------------
+df.to_csv("data_processed/cleaned_real_estate.csv", index=False)
+
+print("\nCleaned dataset saved to data_processed/cleaned_real_estate.csv")
+
+
 
 
 
