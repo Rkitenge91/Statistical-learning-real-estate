@@ -71,3 +71,19 @@ This indicates that most properties sell close to their assessed value, with a s
 Result:
 The distribution of PriceRatio is now more stable and centered around 1, making the dataset more suitable for modeling and interpretation.
 
+
+## Step 5: Feature Engineering
+
+Summary:
+We transformed the cleaned dataset into a modeling-ready format by generating time-based features and encoding categorical variables.
+
+Key actions:
+- Converted SaleDate to datetime format
+- Extracted SaleYear and SaleMonth
+- Selected key predictors for modeling
+- Encoded categorical variable AssrLandUse using one-hot encoding
+- Created final modeling dataset
+
+Result:
+The dataset is now fully prepared for modeling, with structured numerical and categorical features.
+
