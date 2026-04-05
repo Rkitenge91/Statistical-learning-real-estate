@@ -86,7 +86,6 @@ print("\nNew shape after removing missing values:", df.shape)
 
 # 1. Remove invalid values
 df = df[(df["SalePrice"] > 0) & (df["TotalAppraisedValue"] > 0)]
-df = df[df["SalePrice"] >= 1000]
 
 # Check new shape after removing invalid rows
 print("\nShape after removing invalid observations:", df.shape)
@@ -103,21 +102,23 @@ print("\nFirst 5 rows with PriceRatio:")
 print(df.head())
 
 
-# -----------------------------
-# Step 4: Remove extreme outliers
-# -----------------------------
+# ----------------------------------------------------
+# Step 4: Remove unrealistic sale-to-appraisal ratios
+# ----------------------------------------------------
 
-# Compute percentiles
-lower_bound = df["PriceRatio"].quantile(0.01)
-upper_bound = df["PriceRatio"].quantile(0.99)
+# Apply filter
+df = df[(df["PriceRatio"] >= 0.5) & (df["PriceRatio"] <= 1.5)]
 
-# Filter dataset
-df = df[(df["PriceRatio"] >= lower_bound) & (df["PriceRatio"] <= upper_bound)]
+# Reset index (important for clean dataset)
+df = df.reset_index(drop=True)
 
-print("\nShape after removing outliers:", df.shape)
+# Check results
+print("\nShape after removing unrealistic ratios:", df.shape)
 
-print("\nUpdated PriceRatio summary:")
+print("\nUpdated PriceRatio summary AFTER filtering:")
 print(df["PriceRatio"].describe())
+
+print("\nMax PriceRatio AFTER filtering:", df["PriceRatio"].max())
 
 
 import matplotlib.pyplot as plt

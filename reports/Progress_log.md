@@ -34,42 +34,40 @@ Next step:
 Handle missing values and remove invalid observations.
 
 
-## Step 3: Handling missing values
+## Step 3: Removal of invalid observations and target construction
 
 Summary:
-We addressed missing values by prioritizing variables essential for modeling. Observations with missing SalePrice were removed, as this variable is required to construct the target variable. The LandSF variable was dropped due to a high proportion of missing values. Remaining missing values in TotalFinishedArea were handled by removing incomplete observations.
+We removed observations with non-positive or unrealistic values in SalePrice and TotalAppraisedValue to ensure valid computations. Additionally, very small sale prices were excluded as they do not represent meaningful market transactions. We then constructed the target variable, PriceRatio, defined as:
 
-Key actions:
-- Removed rows with missing SalePrice and TotalAppraisedValue
-- Dropped LandSF due to excessive missing values
-- Removed rows with missing TotalFinishedArea
+PriceRatio = SalePrice / TotalAppraisedValue
 
-Result:
-The dataset now contains complete observations for all variables required for modeling.
-
-Next step:
-Remove invalid observations and construct the target variable.
-
-
-## Step 4: Removal of invalid observations and target construction
-
-Summary:
-We removed observations with non-positive values in SalePrice and TotalAppraisedValue to ensure valid computations. These values are not meaningful in a real estate context and would distort the analysis.
-
-We then constructed a new target variable, PriceRatio, defined as the ratio of SalePrice to TotalAppraisedValue. This variable captures the relative difference between market sale price and assessed value, allowing for a more interpretable analysis of pricing behavior. We further excluded unrealistically small sale prices, such as nominal values close to zero, because these transactions are unlikely to reflect meaningful market sales and would distort the target ratio.
+This variable captures how sale prices compare to assessed values, allowing for meaningful analysis of pricing behavior.
 
 Key actions:
 - Removed observations with SalePrice ≤ 0 or TotalAppraisedValue ≤ 0
+- Removed observations with unrealistically low SalePrice values
 - Created PriceRatio = SalePrice / TotalAppraisedValue
 
 Result:
-The dataset now includes a meaningful target variable suitable for regression and comparative analysis.
-
-Next step:
-Transform variables and prepare categorical features for modeling.
+The dataset now includes a well-defined and meaningful target variable suitable for modeling.
 
 
-## Step 5: Removed extreme outliers
+## Step 4: Remove unrealistic sale-to-appraisal ratios
 
-Extreme values in the PriceRatio variable were reduced using percentile-based filtering. The distribution is now more stable, with most observations concentrated between approximately 1.0 and 1.5, indicating that sale prices are generally close to appraised values.
+Summary:
+To improve data quality, we filtered out observations with unrealistic PriceRatio values. Extremely low or high ratios likely reflect data errors, non-arm’s length transactions, or unusual sales that do not represent typical market behavior.
+
+We retained only observations where PriceRatio is between 0.5 and 1.5, ensuring that the analysis focuses on realistic property transactions.
+
+Key actions:
+- Removed observations with PriceRatio < 0.5 (extreme undervaluation)
+- Removed observations with PriceRatio > 1.5 (extreme overvaluation)
+
+Distribution check:
+A histogram of the filtered PriceRatio shows a well-centered distribution ranging from approximately 0.5 to 1.5. The majority of observations are concentrated between about 0.8 and 1.3, with a peak around 1.0–1.1.
+
+This indicates that most properties sell close to their assessed value, with a slight right skew reflecting some higher sale-to-appraisal ratios.
+
+Result:
+The distribution of PriceRatio is now more stable and centered around 1, making the dataset more suitable for modeling and interpretation.
 
