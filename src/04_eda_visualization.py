@@ -46,3 +46,4 @@ plt.ylabel("Average PriceRatio")
 
 plt.savefig("figures/price_ratio_over_time.png")
 plt.show()
+

@@ -103,3 +103,18 @@ Key findings:
 Result:
 
 The exploratory analysis confirms that the dataset contains meaningful structure and variation, making it suitable for predictive modeling.
+
+
+## Step 7: Train/Test Split
+
+Summary:
+
+The dataset was split into training and test sets to prepare for predictive modeling. The target variable is PriceRatio, and all remaining variables are used as predictors.
+
+Key actions:
+- Defined predictors (X) and target variable (y)
+- Split data into 80% training and 20% test sets using train_test_split
+- Set random_state = 42 for reproducibility
+
+Result:
+The data is now properly partitioned, ensuring that model evaluation will be performed on unseen data.
