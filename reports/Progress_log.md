@@ -87,3 +87,19 @@ Key actions:
 Result:
 The dataset is now fully prepared for modeling, with structured numerical and categorical features.
 
+
+## Step 6: Exploratory Data Analysis
+
+Summary:
+
+We explored the distribution of the target variable (PriceRatio) and examined its relationship with key predictors such as property type and time.
+
+Key findings:
+- The distribution of PriceRatio is centered around 1, indicating that most properties sell close to their assessed value.
+- There is moderate variation, with both undervalued (<1) and overvalued (>1) properties present.
+- The average PriceRatio differs slightly across property types, suggesting variation in pricing behavior by category.
+- Over time, PriceRatio shows an increasing trend, indicating that sale prices are becoming higher relative to assessed values.
+
+Result:
+
+The exploratory analysis confirms that the dataset contains meaningful structure and variation, making it suitable for predictive modeling.
