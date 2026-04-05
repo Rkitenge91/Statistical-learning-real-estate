@@ -13,9 +13,7 @@ X = df.drop(columns=["PriceRatio"])
 y = df["PriceRatio"]
 
 # Split
-X_train, X_test, y_train, y_test = train_test_split(
-    X, y, test_size=0.2, random_state=42
-)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
 # Check shapes
 print("Training set shape:", X_train.shape)
