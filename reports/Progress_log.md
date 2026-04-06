@@ -118,3 +118,22 @@ Key actions:
 
 Result:
 The data is now properly partitioned, ensuring that model evaluation will be performed on unseen data.
+
+
+## Step 8: Baseline Regression Models
+
+Summary:
+
+We implemented two baseline regression models, Ridge and Lasso, to predict PriceRatio.
+
+Key actions:
+- Fit Ridge and Lasso models on the training data
+- Generated predictions on the test set
+- Evaluated model performance using RMSE and MAE
+
+Result:
+- Ridge RMSE: 0.2107  
+- Ridge MAE: 0.1621  
+- Lasso RMSE: 0.2133  
+- Lasso MAE: 0.1644  
+Both models produced similar performance metrics.
