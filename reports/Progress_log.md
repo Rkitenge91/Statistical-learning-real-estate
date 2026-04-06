@@ -32,3 +32,119 @@ The dataset was reduced to a smaller set of relevant variables that are more sui
 
 Next step:
 Handle missing values and remove invalid observations.
+
+
+## Step 3: Removal of invalid observations and target construction
+
+Summary:
+We removed observations with non-positive or unrealistic values in SalePrice and TotalAppraisedValue to ensure valid computations. Additionally, very small sale prices were excluded as they do not represent meaningful market transactions. We then constructed the target variable, PriceRatio, defined as:
+
+PriceRatio = SalePrice / TotalAppraisedValue
+
+This variable captures how sale prices compare to assessed values, allowing for meaningful analysis of pricing behavior.
+
+Key actions:
+- Removed observations with SalePrice ≤ 0 or TotalAppraisedValue ≤ 0
+- Removed observations with unrealistically low SalePrice values
+- Created PriceRatio = SalePrice / TotalAppraisedValue
+
+Result:
+The dataset now includes a well-defined and meaningful target variable suitable for modeling.
+
+
+## Step 4: Remove unrealistic sale-to-appraisal ratios
+
+Summary:
+To improve data quality, we filtered out observations with unrealistic PriceRatio values. Extremely low or high ratios likely reflect data errors, non-arm’s length transactions, or unusual sales that do not represent typical market behavior.
+
+We retained only observations where PriceRatio is between 0.5 and 1.5, ensuring that the analysis focuses on realistic property transactions.
+
+Key actions:
+- Removed observations with PriceRatio < 0.5 (extreme undervaluation)
+- Removed observations with PriceRatio > 1.5 (extreme overvaluation)
+
+Distribution check:
+A histogram of the filtered PriceRatio shows a well-centered distribution ranging from approximately 0.5 to 1.5. The majority of observations are concentrated between about 0.8 and 1.3, with a peak around 1.0–1.1.
+
+This indicates that most properties sell close to their assessed value, with a slight right skew reflecting some higher sale-to-appraisal ratios.
+
+Result:
+The distribution of PriceRatio is now more stable and centered around 1, making the dataset more suitable for modeling and interpretation.
+
+
+## Step 5: Feature Engineering
+
+Summary:
+We transformed the cleaned dataset into a modeling-ready format by generating time-based features and encoding categorical variables.
+
+Key actions:
+- Converted SaleDate to datetime format
+- Extracted SaleYear and SaleMonth
+- Selected key predictors for modeling
+- Encoded categorical variable AssrLandUse using one-hot encoding
+- Created final modeling dataset
+
+Result:
+The dataset is now fully prepared for modeling, with structured numerical and categorical features.
+
+
+## Step 6: Exploratory Data Analysis
+
+Summary:
+
+We explored the distribution of the target variable (PriceRatio) and examined its relationship with key predictors such as property type and time.
+
+Key findings:
+- The distribution of PriceRatio is centered around 1, indicating that most properties sell close to their assessed value.
+- There is moderate variation, with both undervalued (<1) and overvalued (>1) properties present.
+- The average PriceRatio differs slightly across property types, suggesting variation in pricing behavior by category.
+- Over time, PriceRatio shows an increasing trend, indicating that sale prices are becoming higher relative to assessed values.
+
+Result:
+
+The exploratory analysis confirms that the dataset contains meaningful structure and variation, making it suitable for predictive modeling.
+
+
+## Step 7: Train/Test Split
+
+Summary:
+
+The dataset was split into training and test sets to prepare for predictive modeling. The target variable is PriceRatio, and all remaining variables are used as predictors.
+
+Key actions:
+- Defined predictors (X) and target variable (y)
+- Split data into 80% training and 20% test sets using train_test_split
+- Set random_state = 42 for reproducibility
+
+Result:
+The data is now properly partitioned, ensuring that model evaluation will be performed on unseen data.
+
+
+## Step 8: Baseline Regression Models
+
+Summary:
+
+We implemented two baseline regression models, Ridge and Lasso, to predict PriceRatio.
+
+Key actions:
+- Fit Ridge and Lasso models on the training data
+- Generated predictions on the test set
+- Evaluated model performance using RMSE and MAE
+
+Result:
+- Ridge RMSE: 0.2107  
+- Ridge MAE: 0.1621  
+- Lasso RMSE: 0.2133  
+- Lasso MAE: 0.1644  
+Both models produced similar performance metrics.
+
+
+## Step 9: Cross-Validation for Baseline Models
+
+- Applied 5-fold cross-validation using KFold with shuffling.
+- Evaluated Ridge and Lasso using cross-validated MSE and RMSE.
+
+Results:
+- Ridge 5-fold CV RMSE: 0.2079  
+- Lasso 5-fold CV RMSE: 0.2064  
+Cross-validation results are consistent with test set performance, indicating stable model behavior.
