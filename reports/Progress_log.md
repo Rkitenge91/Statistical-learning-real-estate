@@ -87,3 +87,64 @@ Key actions:
 Result:
 The dataset is now fully prepared for modeling, with structured numerical and categorical features.
 
+
+## Step 6: Exploratory Data Analysis
+
+Summary:
+
+We explored the distribution of the target variable (PriceRatio) and examined its relationship with key predictors such as property type and time.
+
+Key findings:
+- The distribution of PriceRatio is centered around 1, indicating that most properties sell close to their assessed value.
+- There is moderate variation, with both undervalued (<1) and overvalued (>1) properties present.
+- The average PriceRatio differs slightly across property types, suggesting variation in pricing behavior by category.
+- Over time, PriceRatio shows an increasing trend, indicating that sale prices are becoming higher relative to assessed values.
+
+Result:
+
+The exploratory analysis confirms that the dataset contains meaningful structure and variation, making it suitable for predictive modeling.
+
+
+## Step 7: Train/Test Split
+
+Summary:
+
+The dataset was split into training and test sets to prepare for predictive modeling. The target variable is PriceRatio, and all remaining variables are used as predictors.
+
+Key actions:
+- Defined predictors (X) and target variable (y)
+- Split data into 80% training and 20% test sets using train_test_split
+- Set random_state = 42 for reproducibility
+
+Result:
+The data is now properly partitioned, ensuring that model evaluation will be performed on unseen data.
+
+
+## Step 8: Baseline Regression Models
+
+Summary:
+
+We implemented two baseline regression models, Ridge and Lasso, to predict PriceRatio.
+
+Key actions:
+- Fit Ridge and Lasso models on the training data
+- Generated predictions on the test set
+- Evaluated model performance using RMSE and MAE
+
+Result:
+- Ridge RMSE: 0.2107  
+- Ridge MAE: 0.1621  
+- Lasso RMSE: 0.2133  
+- Lasso MAE: 0.1644  
+Both models produced similar performance metrics.
+
+
+## Step 9: Cross-Validation for Baseline Models
+
+- Applied 5-fold cross-validation using KFold with shuffling.
+- Evaluated Ridge and Lasso using cross-validated MSE and RMSE.
+
+Results:
+- Ridge 5-fold CV RMSE: 0.2079  
+- Lasso 5-fold CV RMSE: 0.2064  
+Cross-validation results are consistent with test set performance, indicating stable model behavior.
