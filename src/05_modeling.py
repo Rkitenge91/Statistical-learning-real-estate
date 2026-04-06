@@ -13,7 +13,7 @@ X = df.drop(columns=["PriceRatio"])
 y = df["PriceRatio"]
 
 # Split
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=6243)
 
 # Check shapes
 print("Training set shape:", X_train.shape)
@@ -27,14 +27,15 @@ print(y_train.describe())
 # Step 8: Baseline regression models( Ridge & Lasso)
 # ---------------------------------------------------
 
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import Ridge, Lasso
 from sklearn.metrics import mean_squared_error, mean_absolute_error
 import numpy as np
 
 # Initialize models
-ridge = Ridge(alpha=1.0)
-lasso = Lasso(alpha=0.01)
-
+ridge = Pipeline([("scale", StandardScaler()),("model", Ridge(alpha=1.0))])
+lasso = lasso = Pipeline([("scale", StandardScaler()),("model", Lasso(alpha=0.01, max_iter=20000))])
 # Fit models
 ridge.fit(X_train, y_train)
 lasso.fit(X_train, y_train)
@@ -55,3 +56,38 @@ print("Ridge MAE:", mae_ridge)
 
 print("Lasso RMSE:", rmse_lasso)
 print("Lasso MAE:", mae_lasso)
+
+
+
+# ---------------------------------------------
+# Step 9: Cross-Validation for Baseline Models
+# ---------------------------------------------
+
+from sklearn.model_selection import KFold, cross_val_score
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import StandardScaler
+from sklearn.linear_model import Ridge, Lasso
+import numpy as np
+
+# 5-fold cross-validation
+kf5 = KFold(n_splits=5, shuffle=True, random_state=6243)
+
+# Ridge and Lasso pipelines
+ridge_cv_model = Pipeline([("scale", StandardScaler()),("model", Ridge(alpha=1.0))])
+
+lasso_cv_model = Pipeline([("scale", StandardScaler()),("model", Lasso(alpha=0.01, max_iter=20000))])
+
+# Cross-validated MSE
+ridge_cv_mse = -cross_val_score(ridge_cv_model, X_train, y_train,cv=kf5,scoring="neg_mean_squared_error").mean()
+
+lasso_cv_mse = -cross_val_score(lasso_cv_model, X_train, y_train,cv=kf5,scoring="neg_mean_squared_error").mean()
+
+# Convert to RMSE
+ridge_cv_rmse = np.sqrt(ridge_cv_mse)
+lasso_cv_rmse = np.sqrt(lasso_cv_mse)
+
+print("Ridge 5-fold CV MSE:", ridge_cv_mse)
+print("Ridge 5-fold CV RMSE:", ridge_cv_rmse)
+
+print("Lasso 5-fold CV MSE:", lasso_cv_mse)
+print("Lasso 5-fold CV RMSE:", lasso_cv_rmse)

@@ -137,3 +137,14 @@ Result:
 - Lasso RMSE: 0.2133  
 - Lasso MAE: 0.1644  
 Both models produced similar performance metrics.
+
+
+## Step 9: Cross-Validation for Baseline Models
+
+- Applied 5-fold cross-validation using KFold with shuffling.
+- Evaluated Ridge and Lasso using cross-validated MSE and RMSE.
+
+Results:
+- Ridge 5-fold CV RMSE: 0.2079  
+- Lasso 5-fold CV RMSE: 0.2064  
+Cross-validation results are consistent with test set performance, indicating stable model behavior.
