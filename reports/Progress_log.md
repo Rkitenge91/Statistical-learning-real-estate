@@ -186,9 +186,9 @@ Additionally, these MSE values are consistent with the earlier baseline Ridge RM
 
  Results:
  - RandomForestRMSE          0.225446
- - RidgeClosedFormRMSE       0.209744
+ - RidgeClosedFormRMSE       0.208367
  - RidgeBuiltinRMSE          0.208367
- - RidgeGradientDescentRMSE  1.082838
+ - RidgeGradientDescentRMSE  0.224999
 
 ## Step 13: Bayesian Regression Model
 
