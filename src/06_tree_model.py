@@ -23,6 +23,7 @@ rf_pred = randForest.predict(X_test)
 feat_imp = randForest.feature_importances_
 feature_imp_df = pd.DataFrame(feat_imp, index=cols)
 feature_imp_df.plot(kind="barh")
+plt.savefig("figures/random_forest_feature_importance.png")
 plt.show()
 
 pred_dict = {"yActual": y_test, "RandomForest": rf_pred}
