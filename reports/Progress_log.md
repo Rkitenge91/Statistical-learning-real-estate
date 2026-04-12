@@ -148,3 +148,31 @@ Results:
 - Ridge 5-fold CV RMSE: 0.2079  
 - Lasso 5-fold CV RMSE: 0.2064  
 Cross-validation results are consistent with test set performance, indicating stable model behavior.
+
+
+
+## Step 10: Bayesian Regression Model
+
+Summary:
+
+We implemented a Bayesian linear regression model using PyMC to estimate the relationship between predictors and PriceRatio, while explicitly capturing uncertainty in parameter estimates.
+
+Key actions:
+- Defined response variable (PriceRatio) and predictors (TotalFinishedArea, LivingUnits, TotalAppraisedValue, SaleYear, SaleMonth, and property type indicators)
+- Standardized continuous variables using StandardScaler to improve model convergence
+- Specified priors
+- Constructed linear predictor combining all features
+- Performed posterior sampling 
+
+Results:
+- Posterior distributions were stable and approximately symmetric, indicating reliable estimation
+- Trace plots showed good mixing across chains with no major convergence issues
+- R-hat values were all approximately 1.00, confirming convergence
+- SaleYear showed the strongest positive association with PriceRatio (mean ≈ 0.087, 95% credible interval fully above 0)
+- LivingUnits also had a positive effect (mean ≈ 0.065), though smaller than SaleYear
+- TotalAppraisedValue had a negligible effect (mean ≈ 0.004) with a credible interval crossing zero, indicating weak evidence of influence
+- Some property type indicators showed moderate variability, but with wider credible intervals, suggesting higher uncertainty
+
+Conclusion:
+The Bayesian model provides a deeper understanding of the drivers of PriceRatio by quantifying uncertainty in each coefficient. It highlights that time-related effects (SaleYear) play a more significant role than appraisal value, offering more nuanced insight into market behavior.
+
