@@ -160,6 +160,8 @@ Cross-validation results are consistent with test set performance, indicating st
  - TotalFinishedArea is the most important feature by permutation
  - SaleMonth and SaleYear are the next two most important
 
+ Interpretation: The Random Forest model achieved an MSE of approximately 0.0508, which is slightly higher than the Ridge regression model (~0.0434), indicating that it does not provide a performance improvement. Feature importance results show that TotalFinishedArea is by far the most influential predictor, followed by SaleMonth and SaleYear, suggesting that property size and timing play key roles in determining the price ratio.
+
 ## Step 11: Ridge Regression (Gradient Descent from Scratch Component)
 
  - fit a ridge regression model using both the closed form solution and gradient descent
