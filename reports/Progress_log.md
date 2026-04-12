@@ -160,16 +160,21 @@ Cross-validation results are consistent with test set performance, indicating st
  - TotalFinishedArea is the most important feature by permutation
  - SaleMonth and SaleYear are the next two most important
 
-## Step 11: Ridge Regression (Gradient Descient from Scratch)
+## Step 11: Ridge Regression (Gradient Descent from Scratch Component)
 
  - fit a ridge regression model using both the closed form solution and gradient descent
  - fit a model using skl for sanity check
  - computed predicted values and saved to csv
 
  Results:
- - Gradient Descent MSE: 1.1725
- - Closed Form MSE 0.04399
- - Builtin Model MSE 0.0434
+ - Gradient Descent MSE: 0.0507
+ - Closed Form MSE 0.04341671176585739
+ - Builtin Model MSE 0.04341671176585752
+
+ Interpretation:
+The closed-form Ridge solution and sklearn Ridge produced essentially identical MSE values, confirming that the manual closed-form implementation is correct. The gradient descent version also performed reasonably well and produced an MSE in the same overall range, although slightly higher, which is expected because it approximates the Ridge solution iteratively rather than solving it exactly.
+
+Additionally, these MSE values are consistent with the earlier baseline Ridge RMSE (~0.21). This confirms that model performance is stable across different implementations and evaluation steps.
 
 ## Step 12: Evaluating Model Errors
 
