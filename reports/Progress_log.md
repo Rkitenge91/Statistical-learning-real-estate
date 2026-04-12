@@ -148,3 +148,36 @@ Results:
 - Ridge 5-fold CV RMSE: 0.2079  
 - Lasso 5-fold CV RMSE: 0.2064  
 Cross-validation results are consistent with test set performance, indicating stable model behavior.
+
+
+## Step 9: Random Forest Modeling
+
+ - fit a random forest to the engineered dataset
+ - observed feature importance through built-in functions
+
+ Results:
+ - TotalFinishedArea is the most important feature by permutation
+ - SaleMonth and SaleYear are the next two most important
+
+## Step 9: Ridge Regression By Hand
+
+ - fit a ridge regression model using both the closed form solution and gradient descent
+ - fit a model using skl for sanity check
+ - computed predicted values and saved to csv
+
+ Results:
+ - Gradient Descent MSE: 1.1725
+ - Closed Form MSE 0.04399
+ - Builtin Model MSE 0.0434
+
+## Step 9: Evaluating Model Errors
+
+ - read in predicted values of each model
+ - computed MSE
+ - created a pandas DataFrame to directly compare
+
+ Results:
+ - RandomForestRMSE          0.225446
+ - RidgeClosedFormRMSE       0.209744
+ - RidgeBuiltinRMSE          0.208367
+ - RidgeGradientDescentRMSE  1.082838
