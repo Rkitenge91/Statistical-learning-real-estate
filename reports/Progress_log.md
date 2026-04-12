@@ -150,7 +150,8 @@ Results:
 Cross-validation results are consistent with test set performance, indicating stable model behavior.
 
 
-## Step 9: Random Forest Modeling
+
+## Step 10: Random Forest Modeling
 
  - fit a random forest to the engineered dataset
  - observed feature importance through built-in functions
@@ -159,7 +160,7 @@ Cross-validation results are consistent with test set performance, indicating st
  - TotalFinishedArea is the most important feature by permutation
  - SaleMonth and SaleYear are the next two most important
 
-## Step 9: Ridge Regression By Hand
+## Step 11: Ridge Regression (Gradient Descient from Scratch)
 
  - fit a ridge regression model using both the closed form solution and gradient descent
  - fit a model using skl for sanity check
@@ -170,7 +171,7 @@ Cross-validation results are consistent with test set performance, indicating st
  - Closed Form MSE 0.04399
  - Builtin Model MSE 0.0434
 
-## Step 9: Evaluating Model Errors
+## Step 12: Evaluating Model Errors
 
  - read in predicted values of each model
  - computed MSE
@@ -181,3 +182,30 @@ Cross-validation results are consistent with test set performance, indicating st
  - RidgeClosedFormRMSE       0.209744
  - RidgeBuiltinRMSE          0.208367
  - RidgeGradientDescentRMSE  1.082838
+
+## Step 13: Bayesian Regression Model
+
+Summary:
+
+We implemented a Bayesian linear regression model using PyMC to estimate the relationship between predictors and PriceRatio, while explicitly capturing uncertainty in parameter estimates.
+
+Key actions:
+- Defined response variable (PriceRatio) and predictors (TotalFinishedArea, LivingUnits, TotalAppraisedValue, SaleYear, SaleMonth, and property type indicators)
+- Standardized continuous variables using StandardScaler to improve model convergence
+- Specified priors
+- Constructed linear predictor combining all features
+- Performed posterior sampling 
+
+Results:
+- Posterior distributions were stable and approximately symmetric, indicating reliable estimation
+- Trace plots showed good mixing across chains with no major convergence issues
+- R-hat values were all approximately 1.00, confirming convergence
+- SaleYear showed the strongest positive association with PriceRatio (mean ≈ 0.087, 95% credible interval fully above 0)
+- LivingUnits also had a positive effect (mean ≈ 0.065), though smaller than SaleYear
+- TotalAppraisedValue had a negligible effect (mean ≈ 0.004) with a credible interval crossing zero, indicating weak evidence of influence
+- Some property type indicators showed moderate variability, but with wider credible intervals, suggesting higher uncertainty
+
+Conclusion:
+The Bayesian model provides a deeper understanding of the drivers of PriceRatio by quantifying uncertainty in each coefficient. It highlights that time-related effects (SaleYear) play a more significant role than appraisal value, offering more nuanced insight into market behavior.
+
+
