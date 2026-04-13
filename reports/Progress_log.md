@@ -150,7 +150,8 @@ Results:
 Cross-validation results are consistent with test set performance, indicating stable model behavior.
 
 
-## Step 9: Random Forest Modeling
+
+## Step 10: Random Forest Modeling
 
  - fit a random forest to the engineered dataset
  - observed feature importance through built-in functions
@@ -159,18 +160,25 @@ Cross-validation results are consistent with test set performance, indicating st
  - TotalFinishedArea is the most important feature by permutation
  - SaleMonth and SaleYear are the next two most important
 
-## Step 9: Ridge Regression By Hand
+ Interpretation: The Random Forest model achieved an MSE of approximately 0.0508, which is slightly higher than the Ridge regression model (~0.0434), indicating that it does not provide a performance improvement. Feature importance results show that TotalFinishedArea is by far the most influential predictor, followed by SaleMonth and SaleYear, suggesting that property size and timing play key roles in determining the price ratio.
+
+## Step 11: Ridge Regression (Gradient Descent from Scratch Component)
 
  - fit a ridge regression model using both the closed form solution and gradient descent
  - fit a model using skl for sanity check
  - computed predicted values and saved to csv
 
  Results:
- - Gradient Descent MSE: 1.1725
- - Closed Form MSE 0.04399
- - Builtin Model MSE 0.0434
+ - Gradient Descent MSE: 0.0507
+ - Closed Form MSE 0.04341671176585739
+ - Builtin Model MSE 0.04341671176585752
 
-## Step 9: Evaluating Model Errors
+ Interpretation:
+The closed-form Ridge solution and sklearn Ridge produced essentially identical MSE values, confirming that the manual closed-form implementation is correct. The gradient descent version also performed reasonably well and produced an MSE in the same overall range, although slightly higher, which is expected because it approximates the Ridge solution iteratively rather than solving it exactly.
+
+Additionally, these MSE values are consistent with the earlier baseline Ridge RMSE (~0.21). This confirms that model performance is stable across different implementations and evaluation steps.
+
+## Step 12: Evaluating Model Errors
 
  - read in predicted values of each model
  - computed MSE
@@ -178,6 +186,33 @@ Cross-validation results are consistent with test set performance, indicating st
 
  Results:
  - RandomForestRMSE          0.225446
- - RidgeClosedFormRMSE       0.209744
+ - RidgeClosedFormRMSE       0.208367
  - RidgeBuiltinRMSE          0.208367
- - RidgeGradientDescentRMSE  1.082838
+ - RidgeGradientDescentRMSE  0.224999
+
+## Step 13: Bayesian Regression Model
+
+Summary:
+
+We implemented a Bayesian linear regression model using PyMC to estimate the relationship between predictors and PriceRatio, while explicitly capturing uncertainty in parameter estimates.
+
+Key actions:
+- Defined response variable (PriceRatio) and predictors (TotalFinishedArea, LivingUnits, TotalAppraisedValue, SaleYear, SaleMonth, and property type indicators)
+- Standardized continuous variables using StandardScaler to improve model convergence
+- Specified priors
+- Constructed linear predictor combining all features
+- Performed posterior sampling 
+
+Results:
+- Posterior distributions were stable and approximately symmetric, indicating reliable estimation
+- Trace plots showed good mixing across chains with no major convergence issues
+- R-hat values were all approximately 1.00, confirming convergence
+- SaleYear showed the strongest positive association with PriceRatio (mean ≈ 0.087, 95% credible interval fully above 0)
+- LivingUnits also had a positive effect (mean ≈ 0.065), though smaller than SaleYear
+- TotalAppraisedValue had a negligible effect (mean ≈ 0.004) with a credible interval crossing zero, indicating weak evidence of influence
+- Some property type indicators showed moderate variability, but with wider credible intervals, suggesting higher uncertainty
+
+Conclusion:
+The Bayesian model provides a deeper understanding of the drivers of PriceRatio by quantifying uncertainty in each coefficient. It highlights that time-related effects (SaleYear) play a more significant role than appraisal value, offering more nuanced insight into market behavior.
+
+

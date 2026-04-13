@@ -28,9 +28,9 @@ def add_intercept(x):
     return np.array(df_x)
 # mean squared error calculation
 def MSE(y_pred, y_actual):
-    n = y_pred.size
-    y_pred = y_pred.tolist()
-    y_actual = y_actual.tolist()
+    y_pred = np.array(y_pred)
+    y_actual = np.array(y_actual)
+    n = len(y_pred)
     sse = 0
     for i in range(n):
         sse += (y_actual[i] - y_pred[i])**2
@@ -52,7 +52,7 @@ X_test_stand_int = add_intercept(X_test_standard)
 # closed-form ridge fitting
 def ridge_fit(x, y, alpha):
     penalty = alpha * np.identity(x.shape[1])
-    penalty[0][0] = 0
+    penalty[-1][-1] = 0
     w = np.linalg.inv(x.T @ x + penalty) @ x.T @ y
     return np.array(w)
 # predicting from calcuated weights
@@ -68,8 +68,10 @@ for a in alphas:
     ridge_w = ridge_fit(X_train_stand_int, y_train, a)
     ridge_pred = ridge_predict(X_test_stand_int, ridge_w)
     mse_list.append(MSE(ridge_pred, y_test))
+
 #print(mse_list)
-best_alpha = 70
+
+best_alpha = alphas[np.argmin(mse_list)]
 # fitting the closed-form model with the optimal alpha value
 w_cf = ridge_fit(X_train_stand_int, y_train, best_alpha)
 pred_cf = ridge_predict(X_test_stand_int, w_cf)
@@ -87,11 +89,13 @@ pred_skl = ridge.predict(X_test_standard)
 mse_skl = MSE(pred_skl, y_test)
 
 # gradient descent for ridge regression
-def gd(Phi, y, w_gd, alpha, eta=0.005, epochs=200):
+def gd(Phi, y, w_gd, alpha, eta=0.005, epochs=2000):
     n = Phi.shape[0]
     y = np.array(y)
     for i in range(epochs):
-        df = (2/n)*Phi.T @ (Phi @ w_gd - y) + (2*w_gd * alpha)
+        penalty = 2 * alpha * w_gd
+        penalty[-1] = 0
+        df = (2/n)*Phi.T @ (Phi @ w_gd - y) + penalty
         w_gd = w_gd - eta*df
     return w_gd
 
@@ -99,14 +103,16 @@ def gd(Phi, y, w_gd, alpha, eta=0.005, epochs=200):
 w_init = np.ones(X_train_stand_int.shape[1])
 # tuning to find best step size
 gd_mse_list = []
-etas = [0.0001, 0.001, 0.005, 0.01]
+etas = [0.00001, 0.00005, 0.0001, 0.0005, 0.001]
 for eta in etas:
-    w = gd(X_train_stand_int, y_train, w_init, 70, eta=eta)
+    w = gd(X_train_stand_int, y_train, w_init, best_alpha, eta=eta)
     gd_pred = X_test_stand_int @ w
     mse = MSE(gd_pred, y_test)
     gd_mse_list.append(mse)
+
 #print(gd_mse_list)
-best_eta = 0.001
+
+best_eta = etas[np.argmin(gd_mse_list)]
 # computing outputs for best step size
 w_gd = gd(X_train_stand_int, y_train, w_init, best_alpha, eta=best_eta)
 pred_gd = X_test_stand_int @ w_gd
