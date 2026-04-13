@@ -123,3 +123,8 @@ pred_df["RidgeClosedForm"] = pred_cf
 pred_df["RidgeBuiltin"] = pred_skl
 pred_df["RidgeGD"] = pred_gd
 pred_df.to_csv("data_processed/model_predictions.csv", index=False)
+
+x_read = X
+x_read["intercept"] = 1
+w_skl_df = pd.DataFrame(w_skl, index=x_read.columns)
+print(w_skl_df.head(11))
