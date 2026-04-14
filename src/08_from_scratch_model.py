@@ -132,5 +132,8 @@ pred_df.to_csv("data_processed/model_predictions.csv", index=False)
 
 x_read = X
 x_read["intercept"] = 1
-w_skl_df = pd.DataFrame(w_skl, index=x_read.columns)
+#print(x_read.columns)
+w_skl = w_skl.reshape(1, -1)
+w_skl_df = pd.DataFrame(w_skl, columns=x_read.columns)
 print(w_skl_df.head(11))
+w_skl_df.to_csv("Streamlit/ridge_weights_skl.csv")
