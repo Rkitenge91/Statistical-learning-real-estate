@@ -19,10 +19,14 @@ living_units_d = x_describe["LivingUnits"]
 st.title("Model Demonstration")
 st.set_page_config(page_title="Model Demonstration")
 
-date = st.date_input("What is the current date?")
+date = st.date_input("Sale date?")
 sqr_ftg = st.number_input("Total Square Footage (ft):", min_value=sqrt_ftg_d.iloc[3], max_value=sqrt_ftg_d.iloc[7], format="%.2f")
 living_units = st.number_input("Number of Living Units:", min_value=living_units_d.iloc[3], max_value=living_units_d.iloc[7], format="%.2f")
 
+#if date.year == 2024 or date.year == 2025:
+#    year = date.year
+#else:
+#    year = 0
 
 month = (date.month - month_d.iloc[1])/month_d.iloc[2]
 year = (date.year - year_d.iloc[1])/year_d.iloc[2]
