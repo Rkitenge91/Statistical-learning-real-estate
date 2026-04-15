@@ -4,6 +4,7 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+import dataframe_image as dfi
 from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import Ridge
@@ -134,9 +135,17 @@ x_read = X
 x_read["intercept"] = 1
 #print(x_read.columns)
 w_skl = w_skl.reshape(1, -1)
-w_skl_df = pd.DataFrame(w_skl, columns=x_read.columns)
+w_skl_df = pd.DataFrame(w_skl, index=["Weights"], columns=x_read.columns)
 print(w_skl_df.head(11))
+
+landuse_labels = ["AssrLandUse_APT FOUR", "AssrLandUse_CONDOMINIMUM", "AssrLandUse_MULTI DWLG", "AssrLandUse_ONE FAMILY", "AssrLandUse_THREE FAMILY", "AssrLandUse_TWO FAMILY"]
+ridge_landuse_weights = w_skl_df[landuse_labels]
+ridge_num_weights = w_skl_df.drop(columns=landuse_labels)
+
+
 w_skl_df.to_csv("Streamlit/ridge_weights_skl.csv")
+dfi.export(ridge_landuse_weights, "figures/ridge_landuse_weights_skl.png")
+dfi.export(ridge_num_weights, "figures/ridge_num_weights_skl.png")
 
 x_mean = np.array(X_train.mean())
 x_std = np.array(X_train.std())
