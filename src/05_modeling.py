@@ -43,7 +43,7 @@ lasso.fit(X_train, y_train)
 # Predictions
 y_pred_ridge = ridge.predict(X_test)
 y_pred_lasso = lasso.predict(X_test)
-.0
+
 pred_df = pd.DataFrame({
     "Actual": y_test,
     "RidgeClosedForm": y_pred_ridge,
