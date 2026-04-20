@@ -12,9 +12,9 @@ df = pd.read_csv("data_processed/feature_engineered_real_estate.csv")
 # data formatting
 X = df.drop(columns=["PriceRatio", "TotalAppraisedValue"]).copy()
 cols = X.columns
-X = np.array(X)
+#X = np.array(X)
 y = df["PriceRatio"].copy()
-y = np.array(y)
+#y = np.array(y)
 # train-test split
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=6243)
 
@@ -33,7 +33,31 @@ feat_imp = randForest.feature_importances_
 feature_imp_df = pd.DataFrame(feat_imp, index=cols, columns=["Importance"])
 feature_imp_df = feature_imp_df.sort_values(by="Importance", ascending=True)
 feature_imp_df.plot(kind="barh", legend=False)
+plt.title("Random Forest Feature Importance")
+plt.xlabel("Importance")
+plt.ylabel("Feature")
+plt.tight_layout()
 plt.savefig("figures/random_forest_feature_importance.png")
+plt.show()
+
+
+# partial dependence plots
+fig, ax = plt.subplots(figsize=(12, 4))
+
+PartialDependenceDisplay.from_estimator(
+    randForest,
+    X_train.astype(float),
+    features=[
+        "TotalFinishedArea",
+        "SaleMonth",
+        ("TotalFinishedArea", "SaleMonth")
+    ],
+    ax=ax
+)
+
+fig.suptitle("Partial Dependence Plots for Random Forest")
+plt.tight_layout()
+plt.savefig("figures/random_forest_partial_dependence.png")
 plt.show()
 
 #storing data

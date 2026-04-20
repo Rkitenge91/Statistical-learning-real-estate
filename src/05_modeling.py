@@ -9,7 +9,7 @@ from sklearn.model_selection import train_test_split
 df = pd.read_csv("data_processed/feature_engineered_real_estate.csv")
 
 # Define X and y
-X = df.drop(columns=["PriceRatio"])
+X = df.drop(columns=["PriceRatio", "TotalAppraisedValue"])
 y = df["PriceRatio"]
 
 # Split
@@ -35,7 +35,7 @@ import numpy as np
 
 # Initialize models
 ridge = Pipeline([("scale", StandardScaler()),("model", Ridge(alpha=1.0))])
-lasso = lasso = Pipeline([("scale", StandardScaler()),("model", Lasso(alpha=0.01, max_iter=20000))])
+lasso = Pipeline([("scale", StandardScaler()),("model", Lasso(alpha=0.01, max_iter=20000))])
 # Fit models
 ridge.fit(X_train, y_train)
 lasso.fit(X_train, y_train)
@@ -43,6 +43,14 @@ lasso.fit(X_train, y_train)
 # Predictions
 y_pred_ridge = ridge.predict(X_test)
 y_pred_lasso = lasso.predict(X_test)
+
+pred_df = pd.DataFrame({
+    "Actual": y_test,
+    "RidgeClosedForm": y_pred_ridge,
+    "Lasso": y_pred_lasso,
+})
+
+pred_df.to_csv("data_processed/model_predictions.csv", index=False)
 
 # Metrics
 rmse_ridge = np.sqrt(mean_squared_error(y_test, y_pred_ridge))

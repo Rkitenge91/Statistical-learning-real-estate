@@ -132,10 +132,10 @@ Key actions:
 - Evaluated model performance using RMSE and MAE
 
 Result:
-- Ridge RMSE: 0.2107  
-- Ridge MAE: 0.1621  
-- Lasso RMSE: 0.2133  
-- Lasso MAE: 0.1644  
+- Ridge RMSE: 0.4272  
+- Ridge MAE: 0.1798  
+- Lasso RMSE: 0.2126  
+- Lasso MAE: 0.1661  
 Both models produced similar performance metrics.
 
 
@@ -145,8 +145,8 @@ Both models produced similar performance metrics.
 - Evaluated Ridge and Lasso using cross-validated MSE and RMSE.
 
 Results:
-- Ridge 5-fold CV RMSE: 0.2079  
-- Lasso 5-fold CV RMSE: 0.2064  
+- Ridge 5-fold CV RMSE: 0.2054  
+- Lasso 5-fold CV RMSE: 0.2072  
 Cross-validation results are consistent with test set performance, indicating stable model behavior.
 
 
