@@ -3,7 +3,6 @@
 # imports
 import pandas as pd
 import numpy as np
-import matplotlib.pyplot as plt
 from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import Ridge
@@ -19,7 +18,7 @@ target_name = "PriceRatio"
 def data_process(name, target):
     df = pd.read_csv(name)
     y = df[target].copy()
-    X = df.drop(columns=[target, "TotalAppraisedValue"]).copy()
+    X = df.drop(columns=[target]).copy()
     return X, y
 # adding an intercept column
 def add_intercept(x):
@@ -79,15 +78,6 @@ mse_cf = MSE(pred_cf, y_test)
 
 
 
-# Sanity Check
-# fitting an sklearn ridge model with same alpha
-ridge = Ridge(alpha=best_alpha)
-ridge.fit(X_train_standard, y_train)
-# computing evaluation data to compare to closed-form and gd
-w_skl = np.hstack([ridge.coef_, ridge.intercept_])
-pred_skl = ridge.predict(X_test_standard)
-mse_skl = MSE(pred_skl, y_test)
-
 # gradient descent for ridge regression
 def gd(Phi, y, w_gd, alpha, eta=0.005, epochs=2000):
     n = Phi.shape[0]
@@ -118,6 +108,46 @@ w_gd = gd(X_train_stand_int, y_train, w_init, best_alpha, eta=best_eta)
 pred_gd = X_test_stand_int @ w_gd
 mse_gd = MSE(gd_pred, y_test)
 
+
+
+# Sanity Check
+# fitting an sklearn ridge model with same alpha
+ridge = Ridge(alpha=best_alpha)
+ridge.fit(X_train_standard, y_train)
+# computing evaluation data to compare to closed-form and gd
+w_skl = np.hstack([ridge.coef_, ridge.intercept_])
+pred_skl = ridge.predict(X_test_standard)
+mse_skl = MSE(pred_skl, y_test)
+
+
+# start of colinearity fixes (not in the scope of this project but potentially for future work)
+colin_vals = ["TotalFinishedArea", "LivingUnits"]
+x_dfs = [X_train, X_test]
+new_x_dfs = []
+for x in x_dfs:
+    sf = x[colin_vals[0]].copy()
+    lu = x[colin_vals[1]].copy()
+    x_new = x.drop(columns=colin_vals).copy()
+    x_new["FootagePerUnit"] = sf/lu
+    new_x_dfs.append(x_new)
+xn_train = new_x_dfs[0]
+xn_test = new_x_dfs[1]
+xns_train = standardize.fit_transform(xn_train)
+xns_test = standardize.transform(xn_test)
+ridge.fit(xns_train, y_train)
+w_fpu = np.hstack([ridge.coef_, ridge.intercept_])
+pred_fpu = ridge.predict(xns_test)
+mse_fpu = MSE(pred_fpu, y_test)
+
+# start of quadratic modeling (not in the scope of this project but potentially for future work)
+x_train_squared = np.hstack([X_train_stand_int**2, X_train_stand_int])
+x_test_squared = np.hstack([X_test_stand_int**2, X_test_stand_int])
+ridge.fit(x_train_squared, y_train)
+w_sqr = np.hstack([ridge.coef_, ridge.intercept_])
+pred_sqr = ridge.predict(x_test_squared)
+mse_sqr = MSE(pred_fpu, y_test)
+
+
 # comparing MSE
 print("Gradient Descent MSE:", mse_gd)
 print("Closed Form MSE", mse_cf)
@@ -134,3 +164,10 @@ x_read = X
 x_read["intercept"] = 1
 w_skl_df = pd.DataFrame(w_skl, index=x_read.columns)
 print(w_skl_df.head(11))
+
+
+print(w_fpu)
+print(mse_fpu)
+
+print(w_sqr)
+print(mse_sqr)

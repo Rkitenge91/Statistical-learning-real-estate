@@ -10,7 +10,7 @@ from sklearn.inspection import partial_dependence, PartialDependenceDisplay
 df = pd.read_csv("data_processed/feature_engineered_real_estate.csv")
 
 # data formatting
-X = df.drop(columns=["PriceRatio", "TotalAppraisedValue"]).copy()
+X = df.drop(columns=["PriceRatio"]).copy()
 cols = X.columns
 X = np.array(X)
 y = df["PriceRatio"].copy()
