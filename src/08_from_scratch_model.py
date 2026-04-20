@@ -166,8 +166,8 @@ w_skl_df = pd.DataFrame(w_skl, index=x_read.columns)
 print(w_skl_df.head(11))
 
 
-print(w_fpu)
-print(mse_fpu)
+print("FootagePerUnit Weights:", w_fpu)
+print("FootagePerUnit MSE:", mse_fpu)
 
-print(w_sqr)
-print(mse_sqr)
+print("Quadratic Weights:", w_sqr)
+print("Quadratic MSE:", mse_sqr)
