@@ -26,10 +26,12 @@ landuse_cols = [col for col in df.columns if "AssrLandUse" in col]
 # Compute average PriceRatio per category
 avg_ratios = df[landuse_cols].multiply(df["PriceRatio"], axis=0).sum() / df[landuse_cols].sum()
 
-plt.figure()
+plt.figure(figsize=(12,6))
 avg_ratios.plot(kind="bar")
 plt.title("Average PriceRatio by Property Type")
 plt.ylabel("Average PriceRatio")
+plt.xticks(rotation=45, ha='right')
+plt.subplots_adjust(bottom=0.3)
 
 plt.savefig("figures/avg_price_ratio_by_property.png")
 plt.show()
