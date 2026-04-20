@@ -23,7 +23,6 @@ df_model = df[
     [
         "TotalFinishedArea",
         "LivingUnits",
-        "TotalAppraisedValue",
         "AssrLandUse",
         "SaleYear",
         "SaleMonth",
